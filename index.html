@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Portal SGI — Roque Mocciola S.A.</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+:root{--navy:#002060;--sky:#00A0E0;--navy-light:#E6EDF8;--sky-light:#E6F6FD}
+body{background:#F0F4F8;min-height:100vh;padding:0}
+.app{max-width:1100px;margin:0 auto;padding:20px 16px}
+.header-bar{display:flex;align-items:center;gap:14px;padding:16px 20px;background:#fff;border-radius:12px;border:1px solid #e2e8f0;margin-bottom:16px}
+.logo-box{background:var(--navy);border-radius:8px;padding:6px 12px;display:flex;align-items:center;justify-content:center;height:42px}
+.logo-box span{color:#fff;font-weight:800;font-size:16px;letter-spacing:1px}
+.header-title h1{font-size:18px;font-weight:700;color:var(--navy)}
+.header-title p{font-size:12px;color:#64748b;margin-top:2px}
+.iso-badges{display:flex;gap:5px;margin-left:auto}
+.iso-badge{font-size:10px;padding:4px 9px;border-radius:12px;background:#e6edf8;color:var(--navy);font-weight:700}
+.card{background:#fff;border-radius:12px;border:1px solid #e2e8f0;padding:20px;margin-bottom:16px}
+.tab-bar{display:flex;gap:0;border-bottom:2px solid var(--navy);margin-bottom:20px}
+.tab{padding:11px 24px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:transparent;color:#64748b;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s;white-space:nowrap}
+.tab.active{color:var(--navy);border-bottom-color:var(--navy);background:#fff}
+.tab:hover:not(.active){background:#f5f7fb;color:var(--navy)}
+.panel{display:none}
+.panel.active{display:block}
+.section-title{font-size:11px;font-weight:700;color:var(--navy);letter-spacing:.7px;text-transform:uppercase;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid #e2e8f0}
+.doc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-bottom:20px}
+.doc-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;cursor:pointer;transition:all .15s;text-decoration:none}
+.doc-card:hover{border-color:var(--sky);background:var(--sky-light)}
+.doc-icon{width:36px;height:36px;border-radius:6px;background:var(--navy-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:17px}
+.doc-code{font-size:10px;font-weight:700;color:var(--navy);letter-spacing:.3px}
+.doc-name{font-size:12px;color:#374151;margin-top:2px;line-height:1.3}
+.dl-btn{font-size:11px;margin-top:5px;color:var(--sky);font-weight:600;display:flex;align-items:center;gap:3px}
+.search-bar{display:flex;gap:8px;margin-bottom:16px}
+label{font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:4px}
+input,select,textarea{width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;color:#1f2937;background:#fff;outline:none;transition:border .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--sky);box-shadow:0 0 0 3px rgba(0,160,224,.1)}
+textarea{resize:vertical;min-height:70px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.form-row.full{grid-template-columns:1fr}
+.btn-primary{background:var(--navy);color:#fff;border:none;padding:9px 20px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s}
+.btn-primary:hover{background:#003080}
+.btn-sec{background:#fff;color:var(--navy);border:1.5px solid var(--navy);padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+.btn-sec:hover{background:var(--navy-light)}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.stat-card{background:#f8fafc;border-radius:8px;padding:14px 16px;text-align:center;border:1px solid #e2e8f0}
+.stat-num{font-size:28px;font-weight:700;color:var(--navy)}
+.stat-label{font-size:11px;color:#64748b;margin-top:2px}
+.nc-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
+.nc-table th{background:var(--navy);color:#fff;padding:8px 10px;text-align:left;font-weight:600;font-size:11px}
+.nc-table td{padding:8px 10px;border-bottom:1px solid #e5e7eb;vertical-align:top}
+.nc-table tr:hover td{background:#f8fafc}
+.reg-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px}
+.reg-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px}
+.reg-card h3{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:12px}
+.reg-item{background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;padding:11px 20px;border-radius:8px;font-size:13px;font-weight:500;opacity:0;transition:opacity .3s;pointer-events:none;z-index:9999;box-shadow:0 4px 12px rgba(0,32,96,.2)}
+.toast.show{opacity:1}
+@media(max-width:600px){.form-row,.reg-grid{grid-template-columns:1fr}.stat-row{grid-template-columns:1fr 1fr}.tab{padding:9px 14px;font-size:12px}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<div class="header-bar">
+  <div class="logo-box"><span>RM</span></div>
+  <div class="header-title">
+    <h1>Portal SGI — Roque Mocciola S.A.</h1>
+    <p>Sistema de Gestión Integrado · General Roca, Río Negro</p>
+  </div>
+  <div class="iso-badges">
+    <span class="iso-badge">ISO 9001</span>
+    <span class="iso-badge">ISO 14001</span>
+    <span class="iso-badge">ISO 45001</span>
+  </div>
+</div>
+
+<div class="card">
+  <div class="tab-bar">
+    <button class="tab active" onclick="showTab('docs',this)">📁 Documentos</button>
+    <button class="tab" onclick="showTab('nc',this)">⚠️ No Conformidades</button>
+    <button class="tab" onclick="showTab('registros',this)">📋 Registros</button>
+  </div>
+
+  <!-- ══ DOCUMENTOS ══ -->
+  <div id="tab-docs" class="panel active">
+    <div class="search-bar">
+      <input type="text" id="search-doc" placeholder="Buscar por código o nombre..." oninput="filterDocs()" style="flex:1"/>
+      <select id="filter-cat" onchange="filterDocs()" style="width:200px">
+        <option value="">Todos los subsistemas</option>
+        <option value="SGI">SGI</option>
+        <option value="CAL">Calidad</option>
+        <option value="AMB">Ambiental</option>
+        <option value="OPE">Operacional</option>
+        <option value="OBR">Operativos de obra</option>
+        <option value="SYH">SYH / SST</option>
+      </select>
+    </div>
+    <div id="doc-list"></div>
+  </div>
+
+  <!-- ══ NO CONFORMIDADES ══ -->
+  <div id="tab-nc" class="panel">
+    <div class="stat-row" id="nc-stats">
+      <div class="stat-card"><div class="stat-num">0</div><div class="stat-label">Total NC</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:#dc2626">0</div><div class="stat-label">Críticas</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:#ea580c">0</div><div class="stat-label">Abiertas</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:#16a34a">0</div><div class="stat-label">Cerradas</div></div>
+    </div>
+
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:18px;margin-bottom:20px">
+      <div class="section-title">Nueva No Conformidad</div>
+      <div class="form-row">
+        <div><label>Fecha</label><input type="date" id="nc-fecha"/></div>
+        <div><label>Clasificación</label>
+          <select id="nc-tipo">
+            <option value="Crítica">Crítica</option>
+            <option value="Mayor" selected>Mayor</option>
+            <option value="Menor">Menor</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div><label>Proceso / Área</label>
+          <select id="nc-proceso">
+            <option>Gestión de Obras (PGO)</option><option>Control de Hormigón (HOR)</option>
+            <option>Compactación de Suelos (MOV)</option><option>Control de Pintura (PIN)</option>
+            <option>Fabricación Estructuras (MET)</option><option>Control de Soldadura (SOL)</option>
+            <option>Montaje Estructuras (MON)</option><option>Obras de Arquitectura (ARC)</option>
+            <option>Instalaciones (INS)</option><option>Trazabilidad de Materiales (TRA)</option>
+            <option>Evaluación Proveedores (PEP)</option><option>Subcontratistas (SUB)</option>
+            <option>Gestión Residuos (GRE)</option><option>Gestión Flota (GFL)</option>
+            <option>Mantenimiento Equipos (MTO)</option><option>Control de Documentos (CDO)</option>
+            <option>Auditorías Internas (AAI)</option><option>SST / Seguridad (SYH)</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div><label>Detectado por</label><input type="text" id="nc-detector" placeholder="Nombre del responsable"/></div>
+      </div>
+      <div class="form-row full">
+        <label>Descripción de la No Conformidad</label>
+        <textarea id="nc-desc" placeholder="Describir el incumplimiento, la evidencia objetiva y el requisito que no se cumple..."></textarea>
+      </div>
+      <div class="form-row full">
+        <label>Causa raíz (5 Porqués / Ishikawa)</label>
+        <textarea id="nc-causa" placeholder="Análisis de causa raíz..." style="min-height:55px"></textarea>
+      </div>
+      <div class="form-row">
+        <div><label>Acción correctiva</label><input type="text" id="nc-accion" placeholder="Acción definida"/></div>
+        <div><label>Responsable</label><input type="text" id="nc-responsable" placeholder="Nombre"/></div>
+      </div>
+      <div class="form-row">
+        <div><label>Plazo de cierre</label><input type="date" id="nc-plazo"/></div>
+        <div style="display:flex;align-items:flex-end;gap:8px">
+          <button class="btn-primary" onclick="agregarNC()">Registrar NC</button>
+          <button class="btn-sec" onclick="exportarNC()">Exportar CSV</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Registro acumulado de NC</div>
+    <div style="overflow-x:auto">
+      <table class="nc-table">
+        <thead><tr>
+          <th>N°</th><th>Fecha</th><th>Proceso</th><th>Tipo</th>
+          <th>Descripción</th><th>Responsable</th><th>Plazo</th><th>Estado</th><th></th>
+        </tr></thead>
+        <tbody id="nc-tbody"></tbody>
+      </table>
+      <p id="nc-empty" style="text-align:center;padding:24px;color:#94a3b8;font-size:13px">No hay no conformidades registradas aún.</p>
+    </div>
+  </div>
+
+  <!-- ══ REGISTROS ══ -->
+  <div id="tab-registros" class="panel">
+    <div class="reg-grid">
+      <div class="reg-card">
+        <h3>📋 Acta de inicio de proyecto</h3>
+        <div><label>Nombre de la obra</label><input type="text" id="r-obra" placeholder="Ej: Galpón Industrial Norte"/></div>
+        <div style="margin-top:8px"><label>Jefe de obra</label><input type="text" id="r-jefe" placeholder="Nombre y apellido"/></div>
+        <div style="margin-top:8px"><label>Fecha de inicio</label><input type="date" id="r-inicio"/></div>
+        <div style="margin-top:8px"><label>Cliente / Comitente</label><input type="text" id="r-cliente" placeholder="Nombre"/></div>
+        <button class="btn-primary" style="margin-top:12px;width:100%" onclick="generarActa()">Generar acta</button>
+      </div>
+      <div class="reg-card">
+        <h3>🔍 Checklist de inspección</h3>
+        <div><label>Obra / Frente</label><input type="text" id="r-frente" placeholder="Identificación del frente"/></div>
+        <div style="margin-top:8px"><label>Tipo de inspección</label>
+          <select id="r-tipo-insp">
+            <option>Hormigón (HOR)</option><option>Compactación (MOV)</option>
+            <option>Pintura (PIN)</option><option>Soldadura (SOL)</option>
+            <option>Montaje estructural (MON)</option><option>Arquitectura (ARC)</option>
+            <option>Instalaciones (INS)</option><option>SST General (SYH)</option>
+          </select>
+        </div>
+        <div style="margin-top:8px"><label>Inspector</label><input type="text" id="r-inspector" placeholder="Nombre"/></div>
+        <div style="margin-top:8px"><label>Fecha</label><input type="date" id="r-fecha-insp"/></div>
+        <button class="btn-primary" style="margin-top:12px;width:100%" onclick="generarChecklist()">Generar checklist</button>
+      </div>
+      <div class="reg-card">
+        <h3>📊 Informe de avance semanal</h3>
+        <div><label>Obra</label><input type="text" id="r-obra2" placeholder="Nombre de la obra"/></div>
+        <div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div><label>Semana N°</label><input type="number" id="r-semana" placeholder="12" min="1" max="52"/></div>
+          <div><label>% avance</label><input type="number" id="r-avance" placeholder="0–100" min="0" max="100"/></div>
+        </div>
+        <div style="margin-top:8px"><label>Jefe de obra</label><input type="text" id="r-jefe2" placeholder="Nombre"/></div>
+        <button class="btn-primary" style="margin-top:12px;width:100%" onclick="generarAvance()">Generar informe</button>
+      </div>
+      <div class="reg-card">
+        <h3>🏭 Registro de capacitación</h3>
+        <div><label>Tema</label><input type="text" id="r-tema" placeholder="Ej: Control de hormigón CIRSOC 201"/></div>
+        <div style="margin-top:8px"><label>Instructor</label><input type="text" id="r-instructor" placeholder="Nombre"/></div>
+        <div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div><label>Fecha</label><input type="date" id="r-fecha-cap"/></div>
+          <div><label>N° asistentes</label><input type="number" id="r-asistentes" placeholder="8" min="1"/></div>
+        </div>
+        <button class="btn-primary" style="margin-top:12px;width:100%" onclick="generarCapacitacion()">Generar registro</button>
+      </div>
+    </div>
+
+    <div class="section-title">Registros generados</div>
+    <div id="registros-lista">
+      <p id="reg-empty" style="text-align:center;padding:20px;color:#94a3b8;font-size:13px">Los registros generados aparecerán aquí para descarga.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const DOCS=[
+  {code:"MSG-VAR-SGI-001",name:"Manual del Sistema de Gestión Integrado",cat:"SGI",file:"MSG-VAR-SGI-001_Manual_SGI.docx",icon:"🏛"},
+  {code:"IDX-VAR-SGI-001",name:"Índice General del SGI",cat:"SGI",file:"IDX-VAR-SGI-001_Indice_General_SGI.docx",icon:"🏛"},
+  {code:"IDX Excel",name:"Índice General del SGI (Excel)",cat:"SGI",file:"IDX-VAR-SGI-001_Indice_General_SGI.xlsx",icon:"🏛"},
+  {code:"ARQ-VAR-SGI-001",name:"Arquitectura del SGI",cat:"SGI",file:"ARQ-VAR-SGI-001_Arquitectura_SGI.docx",icon:"🏛"},
+  {code:"CTX-VAR-SGI-001",name:"Contexto de la Organización",cat:"SGI",file:"CTX-VAR-SGI-001_Contexto_Organizacion.docx",icon:"🏛"},
+  {code:"RDI-VAR-SGI-001",name:"Revisión por la Dirección",cat:"SGI",file:"RDI-VAR-SGI-001_Revision_por_la_Direccion.docx",icon:"🏛"},
+  {code:"CDO-VAR-SGI-001",name:"Control de Documentos",cat:"SGI",file:"CDO-VAR-SGI-001_Control_Documentos.docx",icon:"🏛"},
+  {code:"AAI-VAR-SGI-001",name:"Plan Anual de Auditorías",cat:"SGI",file:"AAI-VAR-SGI-001_Plan_Anual_Auditorias.docx",icon:"🏛"},
+  {code:"RAI-VAR-SGI-001",name:"Registro de Auditoría Interna",cat:"SGI",file:"RAI-VAR-SGI-001_Registro_Auditoria_Interna.docx",icon:"🏛"},
+  {code:"MIH-VAR-SGI-001",name:"Metodología de Hallazgos",cat:"SGI",file:"MIH-VAR-SGI-001_Metodologia_Hallazgos.docx",icon:"🏛"},
+  {code:"GNC-VAR-SGI-001",name:"Gestión de No Conformidades",cat:"SGI",file:"GNC-VAR-SGI-001_Gestion_No_Conformidades.docx",icon:"🏛"},
+  {code:"PCI-VAR-SGI-001",name:"Participación y Consulta de Trabajadores",cat:"SGI",file:"PCI-VAR-SGI-001_Participacion_Consulta_Trabajadores.docx",icon:"🏛"},
+  {code:"CGC-VAR-SGI-001",name:"Gestión de Contratistas SST",cat:"SGI",file:"CGC-VAR-SGI-001_Gestion_Contratistas_SST.docx",icon:"🏛"},
+  {code:"PGC-VAR-CAL-001",name:"Plan de Gestión de Calidad",cat:"CAL",file:"PGC-VAR-CAL-001_Plan_Gestion_Calidad.docx",icon:"✅"},
+  {code:"RCO-VAR-CAL-001",name:"Revisión de Contratos",cat:"CAL",file:"RCO-VAR-CAL-001_Revision_Contratos.docx",icon:"✅"},
+  {code:"PGO-VAR-CAL-001",name:"Gestión de Obras",cat:"CAL",file:"PGO-VAR-CAL-001_Gestion_Obras.docx",icon:"✅"},
+  {code:"TRA-VAR-CAL-001",name:"Trazabilidad de Materiales",cat:"CAL",file:"TRA-VAR-CAL-001_Trazabilidad_Materiales.docx",icon:"✅"},
+  {code:"PEP-VAR-CAL-001",name:"Evaluación de Proveedores",cat:"CAL",file:"PEP-VAR-CAL-001_Evaluacion_Proveedores.docx",icon:"✅"},
+  {code:"SUB-VAR-CAL-001",name:"Selección de Subcontratistas",cat:"CAL",file:"SUB-VAR-CAL-001_Seleccion_Subcontratistas.docx",icon:"✅"},
+  {code:"SAT-VAR-CAL-001",name:"Satisfacción del Cliente",cat:"CAL",file:"SAT-VAR-CAL-001_Satisfaccion_Cliente.docx",icon:"✅"},
+  {code:"AIA-VAR-AMB-001",name:"Aspectos e Impactos Ambientales",cat:"AMB",file:"AIA-VAR-AMB-001_Aspectos_Impactos_Ambientales.docx",icon:"🌿"},
+  {code:"GRE-VAR-AMB-001",name:"Plan de Gestión de Residuos",cat:"AMB",file:"GRE-VAR-AMB-001_Gestion_Residuos.docx",icon:"🌿"},
+  {code:"ENE-VAR-AMB-001",name:"Eficiencia Energética",cat:"AMB",file:"ENE-VAR-AMB-001_Eficiencia_Energetica.docx",icon:"🌿"},
+  {code:"GFL-VAR-OPE-001",name:"Plan de Gestión de Flota",cat:"OPE",file:"GFL-VAR-OPE-001_Gestion_Flota.docx",icon:"⚙️"},
+  {code:"MTO-VAR-OPE-001",name:"Mantenimiento de Equipos",cat:"OPE",file:"MTO-VAR-OPE-001_Mantenimiento_Equipos.docx",icon:"⚙️"},
+  {code:"CAP-VAR-OPE-001",name:"Gestión de Capacitación y Competencias",cat:"OPE",file:"CAP-VAR-OPE-001_Capacitacion_Competencias.docx",icon:"⚙️"},
+  {code:"RES-VAR-OPE-001",name:"Gestión de Recursos Humanos",cat:"OPE",file:"RES-VAR-OPE-001_Gestion_RRHH.docx",icon:"⚙️"},
+  {code:"HOR-VAR-OBR-001",name:"Control de Hormigón en Obra",cat:"OBR",file:"HOR-VAR-OBR-001_Control_Hormigon.docx",icon:"🏗"},
+  {code:"MOV-VAR-OBR-001",name:"Compactación de Suelos",cat:"OBR",file:"MOV-VAR-OBR-001_Compactacion_Suelos.docx",icon:"🏗"},
+  {code:"PIN-VAR-OBR-001",name:"Control de Pintura en Obra",cat:"OBR",file:"PIN-VAR-OBR-001_Control_Pintura.docx",icon:"🏗"},
+  {code:"MET-VAR-OBR-001",name:"Fabricación de Estructuras Metálicas",cat:"OBR",file:"MET-VAR-OBR-001_Fabricacion_Estructuras_Metalicas.docx",icon:"🏗"},
+  {code:"SOL-VAR-OBR-001",name:"Control de Soldadura WPS/PQR",cat:"OBR",file:"SOL-VAR-OBR-001_Control_Soldadura.docx",icon:"🏗"},
+  {code:"MON-VAR-OBR-001",name:"Montaje de Estructuras Metálicas",cat:"OBR",file:"MON-VAR-OBR-001_Montaje_Estructuras_Metalicas.docx",icon:"🏗"},
+  {code:"ARC-VAR-OBR-001",name:"Procedimiento de Obras de Arquitectura",cat:"OBR",file:"ARC-VAR-OBR-001_Obras_Arquitectura.docx",icon:"🏗"},
+  {code:"INS-VAR-OBR-001",name:"Control de Instalaciones",cat:"OBR",file:"INS-VAR-OBR-001_Control_Instalaciones.docx",icon:"🏗"},
+  {code:"EQP-VAR-OBR-001",name:"Operación Segura de Equipos",cat:"OBR",file:"EQP-VAR-OBR-001_Operacion_Equipos_Propios.docx",icon:"🏗"},
+  {code:"SYH-MAN",name:"Manual de Gestión SST (V.0 Feb 2025)",cat:"SYH",file:"SYH-MAN_Manual_Gestion_SST.pdf",icon:"🦺"},
+];
+const CAT_NAMES={SGI:"Sistema SGI",CAL:"Calidad",AMB:"Ambiental",OPE:"Operacional",OBR:"Operativos de obra",SYH:"Sistema SYH / SST"};
+const CAT_ORDER=["SGI","CAL","AMB","OPE","OBR","SYH"];
+function renderDocs(list){
+  const groups={};list.forEach(d=>{groups[d.cat]=groups[d.cat]||[];groups[d.cat].push(d);});
+  let html="";
+  CAT_ORDER.forEach(cat=>{
+    if(!groups[cat]||!groups[cat].length)return;
+    html+=`<div class="section-title">${groups[cat][0].icon} ${CAT_NAMES[cat]}</div><div class="doc-grid">`;
+    groups[cat].forEach(d=>{
+      const ext=d.file.endsWith('.pdf')?'PDF':d.file.endsWith('.xlsx')?'Excel':'Word';
+      html+=`<a class="doc-card" href="${d.file}" download="${d.file}">
+        <div class="doc-icon">${d.icon}</div>
+        <div class="doc-info">
+          <div class="doc-code">${d.code}</div>
+          <div class="doc-name">${d.name}</div>
+          <div class="dl-btn">↓ Descargar ${ext}</div>
+        </div>
+      </a>`;
+    });
+    html+="</div>";
+  });
+  document.getElementById("doc-list").innerHTML=html||'<p style="color:#94a3b8;font-size:13px;padding:20px;text-align:center">Sin resultados.</p>';
+}
+function filterDocs(){
+  const q=document.getElementById("search-doc").value.toLowerCase();
+  const cat=document.getElementById("filter-cat").value;
+  renderDocs(DOCS.filter(d=>(!q||(d.code+d.name).toLowerCase().includes(q))&&(!cat||d.cat===cat)));
+}
+renderDocs(DOCS);
+
+let ncList=[];
+try{const s=localStorage.getItem("rm_nc_v2");if(s)ncList=JSON.parse(s);}catch(e){}
+function saveNC(){try{localStorage.setItem("rm_nc_v2",JSON.stringify(ncList));}catch(e){}}
+function renderNC(){
+  const t=ncList.length,c=ncList.filter(n=>n.tipo==="Crítica").length,
+        a=ncList.filter(n=>n.estado==="Abierta").length,cl=ncList.filter(n=>n.estado==="Cerrada").length;
+  document.getElementById("nc-stats").innerHTML=`
+    <div class="stat-card"><div class="stat-num">${t}</div><div class="stat-label">Total NC</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#dc2626">${c}</div><div class="stat-label">Críticas</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#ea580c">${a}</div><div class="stat-label">Abiertas</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#16a34a">${cl}</div><div class="stat-label">Cerradas</div></div>`;
+  const tbody=document.getElementById("nc-tbody"),empty=document.getElementById("nc-empty");
+  if(!ncList.length){tbody.innerHTML="";empty.style.display="block";return;}
+  empty.style.display="none";
+  tbody.innerHTML=ncList.map((nc,i)=>{
+    const tb=nc.tipo==="Crítica"?"background:#fef2f2;color:#dc2626":nc.tipo==="Mayor"?"background:#fff7ed;color:#ea580c":"background:#f0fdf4;color:#16a34a";
+    const eb=nc.estado==="Cerrada"?"background:#f0fdf4;color:#16a34a":nc.estado==="En proceso"?"background:#fff7ed;color:#ea580c":"background:#fef2f2;color:#dc2626";
+    return `<tr>
+      <td><strong style="color:var(--navy)">NC-${String(i+1).padStart(3,"0")}</strong></td>
+      <td style="white-space:nowrap">${nc.fecha}</td>
+      <td style="max-width:120px;font-size:11px">${nc.proceso}</td>
+      <td><span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:12px;${tb}">${nc.tipo}</span></td>
+      <td style="max-width:180px;font-size:11px">${nc.desc.substring(0,80)}${nc.desc.length>80?"...":""}</td>
+      <td style="font-size:11px">${nc.responsable||"—"}</td>
+      <td style="white-space:nowrap;font-size:11px">${nc.plazo||"—"}</td>
+      <td><span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;${eb}">${nc.estado}</span></td>
+      <td style="white-space:nowrap">
+        <button onclick="cambiarEstado(${i})" style="font-size:10px;padding:3px 8px;border:1px solid #d1d5db;border-radius:4px;cursor:pointer;background:#fff;margin-right:3px">↻</button>
+        <button onclick="eliminarNC(${i})" style="font-size:10px;padding:3px 8px;border:1px solid #fca5a5;border-radius:4px;cursor:pointer;background:#fff;color:#dc2626">✕</button>
+      </td></tr>`;
+  }).join("");
+}
+function agregarNC(){
+  const fecha=document.getElementById("nc-fecha").value,desc=document.getElementById("nc-desc").value.trim();
+  if(!fecha||!desc){showToast("Completá al menos la fecha y la descripción.");return;}
+  ncList.push({fecha,tipo:document.getElementById("nc-tipo").value,proceso:document.getElementById("nc-proceso").value,
+    detector:document.getElementById("nc-detector").value,desc,causa:document.getElementById("nc-causa").value,
+    accion:document.getElementById("nc-accion").value,responsable:document.getElementById("nc-responsable").value,
+    plazo:document.getElementById("nc-plazo").value,estado:"Abierta",created:new Date().toISOString()});
+  saveNC();renderNC();showToast("NC registrada correctamente.");
+  ["nc-fecha","nc-desc","nc-causa","nc-accion","nc-responsable","nc-plazo","nc-detector"].forEach(id=>{document.getElementById(id).value="";});
+}
+function cambiarEstado(i){
+  const e=["Abierta","En proceso","Cerrada"];
+  ncList[i].estado=e[(e.indexOf(ncList[i].estado)+1)%3];
+  saveNC();renderNC();showToast("NC-"+String(i+1).padStart(3,"0")+" → "+ncList[i].estado);
+}
+function eliminarNC(i){
+  if(!confirm("¿Eliminar NC-"+String(i+1).padStart(3,"0")+"?"))return;
+  ncList.splice(i,1);saveNC();renderNC();showToast("NC eliminada.");
+}
+function exportarNC(){
+  if(!ncList.length){showToast("No hay NC para exportar.");return;}
+  const h=["N°","Fecha","Proceso","Tipo","Descripción","Causa raíz","Acción","Responsable","Plazo","Estado"];
+  const rows=ncList.map((nc,i)=>["NC-"+String(i+1).padStart(3,"0"),nc.fecha,nc.proceso,nc.tipo,
+    '"'+nc.desc.replace(/"/g,'""')+'"','"'+nc.causa.replace(/"/g,'""')+'"','"'+nc.accion.replace(/"/g,'""')+'"',
+    nc.responsable,nc.plazo,nc.estado]);
+  const csv=[h,...rows].map(r=>r.join(",")).join("\n");
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}));
+  a.download="NC_Roque_Mocciola_"+new Date().toISOString().slice(0,10)+".csv";a.click();showToast("CSV exportado.");
+}
+renderNC();
+
+function addRegistro(tipo,resumen,contenido){
+  const lista=document.getElementById("registros-lista");
+  const p=document.getElementById("reg-empty");if(p)p.remove();
+  const fname=tipo.replace(/[^a-zA-Z0-9]/g,"_")+"_"+new Date().toISOString().slice(0,10)+".txt";
+  const div=document.createElement("div");div.className="reg-item";
+  div.innerHTML=`<div style="flex:1;min-width:0">
+    <div style="font-size:12px;font-weight:700;color:var(--navy)">${tipo}</div>
+    <div style="font-size:12px;color:#374151;margin-top:2px">${resumen}</div>
+    <div style="font-size:10px;color:#94a3b8;margin-top:2px">${new Date().toLocaleString("es-AR")}</div>
+  </div>
+  <button onclick="descargarReg(this,\`${fname}\`,\`${contenido.replace(/`/g,"'").replace(/\n/g,"\\n")}\`)" class="btn-sec" style="font-size:11px;padding:6px 14px;white-space:nowrap">↓ Descargar</button>`;
+  lista.insertBefore(div,lista.firstChild);showToast("Registro generado.");
+}
+function descargarReg(btn,fname,content){
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([content.replace(/\\n/g,"\n")],{type:"text/plain;charset=utf-8"}));
+  a.download=fname;a.click();
+}
+function generarActa(){
+  const obra=document.getElementById("r-obra").value.trim();if(!obra){showToast("Completá el nombre de la obra.");return;}
+  const jefe=document.getElementById("r-jefe").value,inicio=document.getElementById("r-inicio").value,cliente=document.getElementById("r-cliente").value;
+  addRegistro("Acta de inicio de proyecto",`Obra: ${obra} · Jefe: ${jefe}`,
+    `ROQUE MOCCIOLA S.A.\n${"═".repeat(50)}\nACTA DE INICIO DE PROYECTO\n${"═".repeat(50)}\n\nObra: ${obra}\nCliente: ${cliente}\nJefe de Obra: ${jefe}\nFecha de Inicio: ${inicio}\nFecha de emisión: ${new Date().toLocaleDateString("es-AR")}\n\n${"─".repeat(50)}\nITEMS VERIFICADOS\n\n☐ Contrato revisado (RCO-VAR-CAL-001)\n☐ Plan de trabajo elaborado (PGO-VAR-CAL-001)\n☐ Programa SST aprobado por ART (SYH-MAN)\n☐ Personal con inducción SGI (CAP-VAR-OPE-001)\n☐ Equipos habilitados (EQP-VAR-OBR-001)\n\n${"─".repeat(50)}\nFIRMAS\n\nJefe de Obra: ___________________________ Fecha: ___/___/______\nDirector de Ingeniería: __________________ Fecha: ___/___/______\nGerencia General: _______________________ Fecha: ___/___/______`);
+}
+function generarChecklist(){
+  const frente=document.getElementById("r-frente").value.trim();if(!frente){showToast("Completá el frente de trabajo.");return;}
+  const tipo=document.getElementById("r-tipo-insp").value,inspector=document.getElementById("r-inspector").value,fecha=document.getElementById("r-fecha-insp").value;
+  const items={"Hormigón (HOR)":["Resistencia f'c verificada en planos","Remito del hormigón recibido","Cono de Abrams realizado (resultado: ___ cm)","Probetas confeccionadas (cant: ___)","Fecha ensayo 7 días: ___/___/______","Fecha ensayo 28 días: ___/___/______"],
+    "Compactación (MOV)":["Ensayo Proctor realizado","Humedad óptima verificada","N° de pasadas según plan","Densímetro nuclear utilizado","Grado de compactación: ___%","Resultado: ☐ Conforme  ☐ No Conforme"],
+    "Pintura (PIN)":["Condiciones ambientales: HR: ___% T°: ___°C","Preparación de superficie conforme","Lote y vencimiento verificados","Espesor húmedo: ___ μm","Espesor seco: ___ μm","Resultado: ☐ Conforme  ☐ No Conforme"],
+    "Soldadura (SOL)":["WPS disponible y vigente","Soldador con WPQR vigente","Precalentamiento aplicado (si aplica)","Inspección visual realizada","END: ☐ LP  ☐ PM  ☐ UT  ☐ RX","Resultado: ☐ Conforme  ☐ No Conforme"]}[tipo]||["Ítem 1: ☐ Conforme  ☐ No Conforme","Ítem 2: ☐ Conforme  ☐ No Conforme","Ítem 3: ☐ Conforme  ☐ No Conforme","Observaciones: _______________"];
+  addRegistro(`Checklist ${tipo}`,`Frente: ${frente} · Inspector: ${inspector}`,
+    `ROQUE MOCCIOLA S.A.\n${"═".repeat(50)}\nCHECKLIST DE INSPECCIÓN — ${tipo.toUpperCase()}\n${"═".repeat(50)}\n\nFrente: ${frente}\nInspector: ${inspector}\nFecha: ${fecha}\n\n${"─".repeat(50)}\nÍTEMS DE CONTROL\n\n${items.map((it,i)=>`${i+1}. ${it}`).join("\n")}\n\n${"─".repeat(50)}\nRESULTADO FINAL: ☐ CONFORME  ☐ NO CONFORME\n\nObservaciones:\n_______________________________________________\n\nFirma del inspector: ___________________________ Fecha: ___/___/______`);
+}
+function generarAvance(){
+  const obra=document.getElementById("r-obra2").value.trim();if(!obra){showToast("Completá el nombre de la obra.");return;}
+  const semana=document.getElementById("r-semana").value,avance=document.getElementById("r-avance").value,jefe=document.getElementById("r-jefe2").value;
+  addRegistro("Informe de avance semanal",`Obra: ${obra} · Semana N°${semana} · Avance: ${avance}%`,
+    `ROQUE MOCCIOLA S.A.\n${"═".repeat(50)}\nINFORME DE AVANCE SEMANAL\n${"═".repeat(50)}\n\nObra: ${obra}\nJefe de Obra: ${jefe}\nSemana N°: ${semana}\nAvance físico acumulado: ${avance}%\nFecha: ${new Date().toLocaleDateString("es-AR")}\n\n${"─".repeat(50)}\nACTIVIDADES DE LA SEMANA\n\n•\n•\n•\n\n${"─".repeat(50)}\nACTIVIDADES PRÓXIMA SEMANA\n\n•\n•\n•\n\n${"─".repeat(50)}\nINCIDENCIAS: ☐ Sin incidencias  ☐ Ver registro NC\n\nFirma Jefe de Obra: ___________________________ Fecha: ___/___/______\nFirma Dir. Ingeniería: _________________________ Fecha: ___/___/______`);
+}
+function generarCapacitacion(){
+  const tema=document.getElementById("r-tema").value.trim();if(!tema){showToast("Completá el tema.");return;}
+  const instructor=document.getElementById("r-instructor").value,fecha=document.getElementById("r-fecha-cap").value,asistentes=document.getElementById("r-asistentes").value;
+  addRegistro("Registro de capacitación",`Tema: ${tema} · ${fecha} · ${asistentes} asistentes`,
+    `ROQUE MOCCIOLA S.A.\n${"═".repeat(50)}\nREGISTRO DE CAPACITACIÓN\n${"═".repeat(50)}\n\nTema: ${tema}\nInstructor: ${instructor}\nFecha: ${fecha}\nN° asistentes: ${asistentes}\n\n${"─".repeat(50)}\nLISTA DE ASISTENTES\n\nN°  | Apellido y nombre           | DNI        | Firma\n────|─────────────────────────────|────────────|──────\n 1  |                             |            |\n 2  |                             |            |\n 3  |                             |            |\n 4  |                             |            |\n 5  |                             |            |\n 6  |                             |            |\n 7  |                             |            |\n 8  |                             |            |\n\n${"─".repeat(50)}\nEVALUACIÓN DE EFICACIA (30 días)\n☐ Aplicación verificada en campo  ☐ Requiere refuerzo\n\nFirma instructor: ___________________________ Fecha: ___/___/______`);
+}
+function showTab(id,btn){
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.getElementById("tab-"+id).classList.add("active");btn.classList.add("active");
+}
+function showToast(msg){
+  const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),3000);
+}
+</script>
+</body>
+</html>
